@@ -2,21 +2,23 @@ package graphics
 
 import (
     "github.com/go-gl/glfw/v3.1/glfw"
+    "github.com/go-gl/gl/v3.3-core/gl"
 )
 
 const width = 640
 const height = 480
 
 func Init() {
-    initGLFW()
+    window := initGLFW()
+    defer glfw.Terminate()
+    initGL()
+    startLoop(window)
 }
 
-func initGLFW() {
-    err := glfw.Init()
-    if err != nil {
+func initGLFW() *glfw.Window {
+    if err := glfw.Init(); err != nil {
         panic(err)
     }
-    defer glfw.Terminate()
 
     glfw.DefaultWindowHints() // reset the window hints
     glfw.WindowHint(glfw.Resizable, glfw.False) // non-resizable window
@@ -38,6 +40,23 @@ func initGLFW() {
 
     window.Show()
 
+    return window
+}
+
+func initGL() {
+    if err := gl.Init(); err != nil {
+        panic(err)
+    }
+
+    gl.Enable(gl.DEPTH_TEST)
+    gl.DepthFunc(gl.LEQUAL)
+    gl.Enable(gl.CULL_FACE)
+    gl.Enable(gl.BACK)
+
+    gl.Viewport(0, 0, width, height)
+}
+
+func startLoop(window *glfw.Window) {
     for !window.ShouldClose() {
         window.SwapBuffers()
         glfw.PollEvents()
