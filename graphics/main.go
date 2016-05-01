@@ -54,6 +54,9 @@ func initGL() {
     gl.Enable(gl.BACK)
 
     gl.Viewport(0, 0, width, height)
+
+    initCameraShader()
+    gl.UseProgram(CameraShader)
 }
 
 func startLoop(window *glfw.Window) {
