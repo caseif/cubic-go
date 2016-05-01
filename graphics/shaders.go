@@ -31,7 +31,7 @@ void main() {
 var CameraShader uint32
 
 func initCameraShader() {
-    cameraShader = createProgram(cameraVertShader, cameraFragShader)
+    CameraShader = createProgram(cameraVertShader, cameraFragShader)
 }
 
 func createProgram(vert, frag string) uint32 {
