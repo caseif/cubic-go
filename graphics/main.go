@@ -51,7 +51,7 @@ func initGL() {
     gl.Enable(gl.DEPTH_TEST)
     gl.DepthFunc(gl.LEQUAL)
     gl.Enable(gl.CULL_FACE)
-    gl.Enable(gl.BACK)
+    gl.CullFace(gl.BACK)
 
     gl.Viewport(0, 0, width, height)
 
