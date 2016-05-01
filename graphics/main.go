@@ -3,6 +3,7 @@ package graphics
 import (
     "github.com/go-gl/glfw/v3.1/glfw"
     "github.com/go-gl/gl/v3.3-core/gl"
+    "github.com/go-gl/mathgl/mgl32"
 )
 
 const width = 640
@@ -56,6 +57,14 @@ func initGL() {
     gl.Viewport(0, 0, width, height)
 
     initCameraShader()
+    gl.UseProgram(CameraShader)
+
+    var fov float32 = 15
+    var znear float32 = 1
+    var zfar float32 = 10
+    prMatrix := mgl32.Perspective(znear, zfar, fov, float32(width) / height)
+    gl.UniformMatrix4fv(gl.GetUniformLocation(CameraShader, gl.Str("perspectiveMatrix\x00")), 1, false, &prMatrix[0])
+
     gl.UseProgram(CameraShader)
 }
 
