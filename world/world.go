@@ -13,11 +13,11 @@ var LocalWorld World
 
 type World struct {
     name string
-    ChunkMap map[mgl32.Vec2]Chunk
+    ChunkMap map[mgl32.Vec2]*Chunk
 }
 
 func CreateWorld(name string) *World {
-    return &World{name, make(map[mgl32.Vec2]Chunk)}
+    return &World{name, make(map[mgl32.Vec2]*Chunk)}
 }
 
 func (self World) GetName() string {
@@ -29,7 +29,7 @@ func (self World) AddChunk(chunk Chunk) {
         panic("Chunk already exists at position " + util.Vec2ToStr(chunk.GetPosition()) + " in world " + self.GetName())
     }
 
-    self.ChunkMap[*chunk.GetPosition()] = chunk
+    self.ChunkMap[*chunk.GetPosition()] = &chunk
 }
 
 func (self World) getBlock(x, y, z int) *Block {
