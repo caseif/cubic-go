@@ -7,25 +7,26 @@ import (
 
 const cameraFragShader string = `
 #version 330 core
-uniform sampler2DArray texArray;
-in vec3 texCoord;
+//uniform sampler2DArray texArray;
+//in vec3 texCoord;
 void main() {
-    gl_FragColor = texture(texArray, texCoord);
+    //gl_FragColor = texture(texArray, texCoord);
+    gl_FragColor = vec4(1, 1, 1, 1);
 }` + "\x00"
 
 const cameraVertShader string = `
 #version 330 core
-uniform mat4 perspectiveMatrix; // perspective matrix (constant)
-uniform mat4 translationMatrix; // translation matrix (varies with camera state)
-uniform mat4 rotXMatrix; // x-rotation matrix (varies with camera state)
-uniform mat4 rotYMatrix; // y-rotation matrix (varies with camera state)
-uniform mat4 rotZMatrix; // z-rotation matrix (varies with camera state)
-out vec3 texCoord;
+uniform mat4 prMatrix; // perspective matrix (constant)
+uniform mat4 trMatrix; // translation matrix (varies with camera state)
+uniform mat4 rXMatrix; // x-rotation matrix (varies with camera state)
+uniform mat4 rYMatrix; // y-rotation matrix (varies with camera state)
+uniform mat4 rZMatrix; // z-rotation matrix (varies with camera state)
+//out vec3 texCoord;
 attribute vec4 in_position;
-attribute vec3 in_texCoord;
+//attribute vec3 in_texCoord;
 void main() {
-    gl_Position = perspectiveMatrix * rotXMatrix * rotYMatrix * rotZMatrix * translationMatrix * in_position;
-    texCoord = in_texCoord;
+    gl_Position = prMatrix * rXMatrix * rYMatrix * rZMatrix * trMatrix * in_position;
+    //texCoord = in_texCoord;
 }` + "\x00"
 
 var CameraShader uint32

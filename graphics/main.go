@@ -4,6 +4,7 @@ import (
     "github.com/go-gl/glfw/v3.1/glfw"
     "github.com/go-gl/gl/v3.3-core/gl"
     "github.com/go-gl/mathgl/mgl32"
+    "github.com/caseif/cubic-go/world"
 )
 
 const width = 640
@@ -51,8 +52,8 @@ func initGL() {
 
     gl.Enable(gl.DEPTH_TEST)
     gl.DepthFunc(gl.LEQUAL)
-    gl.Enable(gl.CULL_FACE)
-    gl.CullFace(gl.BACK)
+    //gl.Enable(gl.CULL_FACE)
+    //gl.CullFace(gl.BACK)
 
     gl.Viewport(0, 0, width, height)
 
@@ -63,13 +64,19 @@ func initGL() {
     var znear float32 = 1
     var zfar float32 = 10
     prMatrix := mgl32.Perspective(znear, zfar, fov, float32(width) / height)
-    gl.UniformMatrix4fv(gl.GetUniformLocation(CameraShader, gl.Str("perspectiveMatrix\x00")), 1, false, &prMatrix[0])
+    gl.UniformMatrix4fv(gl.GetUniformLocation(CameraShader, gl.Str("prMatrix\x00")), 1, false, &prMatrix[0])
 
     gl.UseProgram(CameraShader)
+
+    gl.ClearColor(1, 1, 0, 1)
 }
 
 func startLoop(window *glfw.Window) {
     for !window.ShouldClose() {
+        gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+
+        render(&world.LocalWorld)
+
         window.SwapBuffers()
         glfw.PollEvents()
     }
