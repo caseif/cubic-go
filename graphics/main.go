@@ -5,8 +5,6 @@ import (
     "github.com/go-gl/gl/v3.3-core/gl"
     "github.com/go-gl/mathgl/mgl32"
     "github.com/caseif/cubic-go/world"
-    "github.com/caseif/cubic-go/input"
-    "math"
 )
 
 const width = 640
@@ -36,8 +34,8 @@ func initGLFW() *glfw.Window {
         panic(err)
     }
 
-    window.SetKeyCallback(input.KeyCallback)
-    window.SetMouseButtonCallback(input.MouseCallback)
+    window.SetKeyCallback(KeyCallback)
+    window.SetMouseButtonCallback(MouseCallback)
 
     vidmode := glfw.GetPrimaryMonitor().GetVideoMode()
     window.SetPos((vidmode.Width - width) / 2, (vidmode.Height - height) / 2) // center the window
@@ -65,7 +63,7 @@ func initGL() {
     initCameraShader()
     gl.UseProgram(CameraShader)
 
-    var fov float32 = 15 * math.Pi / 180
+    var fov float32 = mgl32.DegToRad(15)
     var znear float32 = 1
     var zfar float32 = 10
     prMatrix := mgl32.Perspective(znear, zfar, fov, float32(width) / float32(height))
@@ -79,6 +77,8 @@ func initGL() {
 func startLoop(window *glfw.Window) {
     for !window.ShouldClose() {
         gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+
+        CAMERA.UpdatePosition()
 
         render(&world.LocalWorld)
 

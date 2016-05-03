@@ -24,7 +24,7 @@ func (self Chunk) GetPosition() *mgl32.Vec2 {
     return &self.position
 }
 
-func (self Chunk) AddBlock(block *Block) {
+func (self *Chunk) AddBlock(block *Block) {
     var x int = int(block.GetPosition().X())
     var y int = int(block.GetPosition().Y())
     var z int = int(block.GetPosition().Z())

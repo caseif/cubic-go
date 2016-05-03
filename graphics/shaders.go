@@ -29,7 +29,17 @@ void main() {
     texCoord = in_texCoord;
 }` + "\x00"
 
+const trMatName = "trMatrix"
+const rotXMatName = "rXMatrix"
+const rotYMatName = "rYMatrix"
+const rotZMatName = "rZMatrix"
+
 var CameraShader uint32
+
+var TrMatLoc int32
+var RotXMatLoc int32
+var RotYMatLoc int32
+var RotZMatLoc int32
 
 func initCameraShader() {
     CameraShader = createProgram(cameraVertShader, cameraFragShader)
@@ -39,7 +49,10 @@ func createProgram(vert, frag string) uint32 {
     vertHandle := compileShader(gl.VERTEX_SHADER, &vert)
     fragHandle := compileShader(gl.FRAGMENT_SHADER, &frag)
 
-    return linkProgram(vertHandle, fragHandle)
+    handle := linkProgram(vertHandle, fragHandle)
+    setUniformLocations(handle)
+
+    return handle
 }
 
 func compileShader(shaderType uint32, source *string) uint32 {
@@ -93,4 +106,11 @@ func getShaderLog(handle uint32, program bool) *string {
     log := strings.Repeat("\x00", int(maxLen + 1))
     logFunc(handle, maxLen, nil, gl.Str(log))
     return &log
+}
+
+func setUniformLocations(program uint32) {
+    TrMatLoc = gl.GetUniformLocation(program, gl.Str(trMatName + "\x00"))
+    RotXMatLoc = gl.GetUniformLocation(program, gl.Str(rotXMatName + "\x00"))
+    RotYMatLoc = gl.GetUniformLocation(program, gl.Str(rotYMatName + "\x00"))
+    RotZMatLoc = gl.GetUniformLocation(program, gl.Str(rotZMatName + "\x00"))
 }
