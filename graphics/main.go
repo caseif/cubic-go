@@ -35,7 +35,7 @@ func initGLFW() *glfw.Window {
     }
 
     window.SetKeyCallback(KeyCallback)
-    window.SetMouseButtonCallback(MouseCallback)
+    window.SetInputMode(glfw.CursorMode, glfw.CursorDisabled)
 
     vidmode := glfw.GetPrimaryMonitor().GetVideoMode()
     window.SetPos((vidmode.Width - width) / 2, (vidmode.Height - height) / 2) // center the window
@@ -84,5 +84,6 @@ func startLoop(window *glfw.Window) {
 
         window.SwapBuffers()
         glfw.PollEvents()
+        PollMouse(window)
     }
 }

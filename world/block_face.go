@@ -3,7 +3,7 @@ package world
 type BlockFace int
 
 const (
-    TOP = iota
+    TOP BlockFace = iota
     BOTTOM
     LEFT
     RIGHT
