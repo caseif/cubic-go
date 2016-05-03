@@ -11,7 +11,7 @@ const floatsPerVertex = 3
 const floatsPerFace int = 6 * floatsPerVertex
 
 var positionAttrIndex uint32 = 1<<31
-//var texCoordAttrIndex = uint32(gl.GetAttribLocation(CameraShader, gl.Str("in_texCoord\x00")))
+var texCoordAttrIndex uint32 = 1<<31
 
 var chunkVboHandles = make(map[*world.Chunk]uint32)
 var chunkVboSizes = make(map[*world.Chunk]int32)
@@ -30,19 +30,19 @@ func render(world *world.World) {
 
     for _, chunk := range world.ChunkMap {
         if chunk.Dirty {
-            vbo := *createVbo(chunk)
+            vbo := createVbo(chunk)
 
             if handle := chunkVaoHandles[chunk]; handle != 0 {
                 gl.DeleteVertexArrays(1, &handle)
             }
 
-            chunkVboSizes[chunk] = int32(len(vbo))
+            chunkVboSizes[chunk] = int32(len(*vbo))
             handle, hasHandle := chunkVboHandles[chunk]
             if !hasHandle {
                 gl.GenBuffers(1, &handle)
                 chunkVboHandles[chunk] = handle
             }
-            chunkVaoHandles[chunk] = prepareVbo(handle, &vbo)
+            chunkVaoHandles[chunk] = prepareVbo(handle, vbo)
 
             chunk.Dirty = false
         }
@@ -114,7 +114,7 @@ func createVbo(chunk *world.Chunk) *[]float32 {
 
 func createQuad(blockType world.BlockType, face world.BlockFace, v0, v1, v2, v3 *mgl32.Vec3) *[floatsPerFace]float32 {
     var buffer [floatsPerFace]float32
-    var bSlice = buffer[:]
+    var bSlice = buffer[0:0]
     createVertex(&bSlice, v0, blockType, face, 0)
     createVertex(&bSlice, v1, blockType, face, 1)
     createVertex(&bSlice, v2, blockType, face, 2)
@@ -162,5 +162,8 @@ func renderChunk(chunk *world.Chunk) {
 func checkIndices() {
     if positionAttrIndex == 1<<31 {
         positionAttrIndex = uint32(gl.GetAttribLocation(CameraShader, gl.Str("in_position\x00")))
+    }
+    if texCoordAttrIndex == 1<<31 {
+        texCoordAttrIndex = uint32(gl.GetAttribLocation(CameraShader, gl.Str("in_texCoord\x00")))
     }
 }

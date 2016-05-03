@@ -5,6 +5,7 @@ import (
     "github.com/go-gl/gl/v3.3-core/gl"
     "github.com/go-gl/mathgl/mgl32"
     "github.com/caseif/cubic-go/world"
+    "math"
 )
 
 const width = 640
@@ -60,10 +61,10 @@ func initGL() {
     initCameraShader()
     gl.UseProgram(CameraShader)
 
-    var fov float32 = 15
+    var fov float32 = 15 * math.Pi / 180
     var znear float32 = 1
     var zfar float32 = 10
-    prMatrix := mgl32.Perspective(znear, zfar, fov, float32(width) / height)
+    prMatrix := mgl32.Perspective(znear, zfar, fov, float32(width) / float32(height))
     gl.UniformMatrix4fv(gl.GetUniformLocation(CameraShader, gl.Str("prMatrix\x00")), 1, false, &prMatrix[0])
 
     gl.UseProgram(CameraShader)

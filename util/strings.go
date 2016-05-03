@@ -6,10 +6,12 @@ import (
 )
 
 func Vec2ToStr(vec *mgl32.Vec2) string {
-    return "(" + strconv.Itoa(int(vec.X())) + ", " + strconv.Itoa(int(vec.Y())) + ")"
+    return "(" + strconv.FormatFloat(float64(vec.X()), 'f', -1, 32) + ", " +
+    strconv.FormatFloat(float64(vec.Y()), 'f', -1, 32) + ")"
 }
 
 func Vec3ToStr(vec *mgl32.Vec3) string {
-    return "(" + strconv.Itoa(int(vec.X())) + ", " + strconv.Itoa(int(vec.Y())) + ", " + strconv.Itoa(int(vec.Z())) +
-    ")"
+    return "(" + strconv.FormatFloat(float64(vec.X()), 'f', -1, 32) + ", " +
+    strconv.FormatFloat(float64(vec.Y()), 'f', -1, 32) + ", " +
+    strconv.FormatFloat(float64(vec.Z()), 'f', -1, 32) + ")"
 }
