@@ -142,8 +142,8 @@ func prepareVbo(handle uint32, vbo *[]float32) uint32 {
 
     checkIndices()
 
-    gl.EnableVertexArrayAttrib(vaoHandle, positionAttrIndex)
-    //gl.EnableVertexArrayAttrib(vaoHandle, texCoordAttrIndex)
+    gl.EnableVertexAttribArray(positionAttrIndex)
+    //gl.EnableVertexAttribArray(texCoordAttrIndex)
 
     gl.VertexAttribPointer(positionAttrIndex, 3, gl.FLOAT, false, 12, nil)
     //gl.VertexAttribPointer(texCoordAttrIndex, 3, gl.FLOAT, false, 24, nil)
