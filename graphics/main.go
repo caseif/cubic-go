@@ -5,6 +5,7 @@ import (
     "github.com/go-gl/gl/v3.3-core/gl"
     "github.com/go-gl/mathgl/mgl32"
     "github.com/caseif/cubic-go/world"
+    "github.com/caseif/cubic-go/input"
     "math"
 )
 
@@ -34,6 +35,9 @@ func initGLFW() *glfw.Window {
     if err != nil {
         panic(err)
     }
+
+    window.SetKeyCallback(input.KeyCallback)
+    window.SetMouseButtonCallback(input.MouseCallback)
 
     vidmode := glfw.GetPrimaryMonitor().GetVideoMode()
     window.SetPos((vidmode.Width - width) / 2, (vidmode.Height - height) / 2) // center the window
