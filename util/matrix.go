@@ -49,12 +49,12 @@ func GetZRotationMatrix(rotationRads float32) *mgl32.Mat4 {
     return &mat
 }
 
-func Perspective(near, far, fov, aspect float32) *mgl32.Mat4 {
-    y2 := near * float32(math.Tan(float64(fov)));
-    y1 := -y2;
-    x1 := y1 * aspect;
-    x2 := y2 * aspect;
-    return frustum(x1, x2, y1, y2, near, far);
+func Perspective(near, far, fovDegs, aspect float32) *mgl32.Mat4 {
+    y2 := near * float32(math.Tan(float64(mgl32.DegToRad(fovDegs))))
+    y1 := -y2
+    x1 := y1 * aspect
+    x2 := y2 * aspect
+    return frustum(x1, x2, y1, y2, near, far)
 }
 
 func frustum(left, right, bottom, top, near, far float32) *mgl32.Mat4 {

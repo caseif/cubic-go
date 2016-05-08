@@ -7,7 +7,7 @@ import (
     "math"
 )
 
-const Speed float32 = 2
+const Speed float32 = 0.02
 
 var CAMERA = Camera{}
 

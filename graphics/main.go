@@ -62,24 +62,28 @@ func initGL() {
     gl.Viewport(0, 0, width, height)
 
     initCameraShader()
-    gl.UseProgram(CameraShader)
 
-    var fov float32 = mgl32.DegToRad(15)
+    var fov float32 = 15
     var znear float32 = 1
     var zfar float32 = 10
-    prMatrix := *util.Perspective(znear, zfar, fov, float32(width) / float32(height))
-    gl.UniformMatrix4fv(gl.GetUniformLocation(CameraShader, gl.Str("prMatrix\x00")), 1, false, &prMatrix[0])
 
     gl.UseProgram(CameraShader)
+    prMatrix := *util.Perspective(znear, zfar, fov, float32(width) / float32(height))
+    gl.UniformMatrix4fv(gl.GetUniformLocation(CameraShader, gl.Str("prMatrix\x00")), 1, false, &prMatrix[0])
+    gl.UseProgram(0)
 
     gl.ClearColor(1, 1, 0, 1)
 }
 
 func startLoop(window *glfw.Window) {
+    CAMERA.Translation = mgl32.Vec3{0, 0, -5}
+
     for !window.ShouldClose() {
         gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
         CAMERA.UpdatePosition()
+        /*println(strconv.FormatFloat(float64(CAMERA.Rotation.X()), 'f', -1, 32),
+            strconv.FormatFloat(float64(CAMERA.Rotation.Y()), 'f', -1, 32))*/
 
         render(&world.LocalWorld)
 

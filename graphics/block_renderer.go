@@ -11,6 +11,7 @@ const floatsPerVertex = 3
 const floatsPerFace int = 6 * floatsPerVertex
 
 var positionAttrIndex uint32 = 1<<31
+var colorAttrIndex uint32 = 1<<31
 var texCoordAttrIndex uint32 = 1<<31
 
 var chunkVboHandles = make(map[*world.Chunk]uint32)
@@ -83,23 +84,23 @@ func createVbo(chunk *world.Chunk) *[]float32 {
                 }
                 // front face
                 if b.GetRelative(world.FRONT) == nil {
-                    faces = append(faces, *createQuad(blockType, world.BACK, c001, c101, c111, c011))
+                    faces = append(faces, *createQuad(blockType, world.FRONT, c001, c101, c111, c011))
                 }
                 // left face
                 if b.GetRelative(world.LEFT) == nil {
-                    faces = append(faces, *createQuad(blockType, world.BACK, c000, c001, c011, c010))
+                    faces = append(faces, *createQuad(blockType, world.LEFT, c000, c001, c011, c010))
                 }
                 // right face
                 if b.GetRelative(world.RIGHT) == nil {
-                    faces = append(faces, *createQuad(blockType, world.BACK, c101, c100, c110, c111))
+                    faces = append(faces, *createQuad(blockType, world.RIGHT, c101, c100, c110, c111))
                 }
                 // bottom face
                 if b.GetRelative(world.BOTTOM) == nil {
-                    faces = append(faces, *createQuad(blockType, world.BACK, c000, c100, c101, c001))
+                    faces = append(faces, *createQuad(blockType, world.BOTTOM, c000, c100, c101, c001))
                 }
                 // top face
                 if b.GetRelative(world.TOP) == nil {
-                    faces = append(faces, *createQuad(blockType, world.BACK, c010, c011, c111, c110))
+                    faces = append(faces, *createQuad(blockType, world.TOP, c010, c011, c111, c110))
                 }
 
                 for _, face := range faces {
@@ -162,6 +163,9 @@ func renderChunk(chunk *world.Chunk) {
 func checkIndices() {
     if positionAttrIndex == 1<<31 {
         positionAttrIndex = uint32(gl.GetAttribLocation(CameraShader, gl.Str("in_position\x00")))
+    }
+    if colorAttrIndex == 1<<31 {
+        colorAttrIndex = uint32(gl.GetAttribLocation(CameraShader, gl.Str("in_color\x00")))
     }
     if texCoordAttrIndex == 1<<31 {
         texCoordAttrIndex = uint32(gl.GetAttribLocation(CameraShader, gl.Str("in_texCoord\x00")))

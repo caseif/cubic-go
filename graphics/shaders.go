@@ -9,6 +9,7 @@ const cameraFragShader string = `
 #version 330 core
 //uniform sampler2DArray texArray;
 in vec3 texCoord;
+in vec4 color;
 void main() {
     //gl_FragColor = texture(texArray, texCoord);
     gl_FragColor = vec4(1, 1, 1, 1);
