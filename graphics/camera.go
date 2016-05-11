@@ -19,7 +19,7 @@ type Camera struct {
 }
 
 func (self *Camera) TranslateBy(translation mgl32.Vec3) {
-    self.Translation = self.Translation.Add(translation)
+    self.Translation = self.Translation.Add(translation.Mul(-1))
     self.dirtyTranslation = true
 }
 
