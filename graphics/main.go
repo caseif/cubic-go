@@ -3,7 +3,6 @@ package graphics
 import (
     "github.com/go-gl/glfw/v3.1/glfw"
     "github.com/go-gl/gl/v3.3-core/gl"
-    "github.com/go-gl/mathgl/mgl32"
     "github.com/caseif/cubic-go/world"
     "github.com/caseif/cubic-go/util"
 )
@@ -77,16 +76,12 @@ func initGL() {
 }
 
 func startLoop(window *glfw.Window) {
-    CAMERA.Translation = mgl32.Vec3{0, 0, -5}
-
     for !window.ShouldClose() {
         gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
         CAMERA.UpdatePosition()
-        /*println(strconv.FormatFloat(float64(CAMERA.Rotation.X()), 'f', -1, 32),
-            strconv.FormatFloat(float64(CAMERA.Rotation.Y()), 'f', -1, 32))*/
 
-        render(&world.LocalWorld)
+        render(world.WORLD_SERVER.GetWorld("world")) //TODO: fix this once entities are implemented
 
         window.SwapBuffers()
         glfw.PollEvents()

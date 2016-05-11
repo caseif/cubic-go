@@ -9,8 +9,6 @@ import (
 const CHUNK_LENGTH = 16
 const CHUNK_HEIGHT = 128
 
-var LocalWorld World
-
 type World struct {
     name string
     ChunkMap map[mgl32.Vec2]*Chunk
@@ -24,15 +22,15 @@ func (self World) GetName() string {
     return self.name
 }
 
-func (self World) AddChunk(chunk Chunk) {
+func (self World) AddChunk(chunk *Chunk) {
     if _, ok := self.ChunkMap[*chunk.GetPosition()]; ok {
         panic("Chunk already exists at position " + util.Vec2ToStr(chunk.GetPosition()) + " in world " + self.GetName())
     }
 
-    self.ChunkMap[*chunk.GetPosition()] = &chunk
+    self.ChunkMap[*chunk.GetPosition()] = chunk
 }
 
-func (self World) getBlock(x, y, z int) *Block {
+func (self World) GetBlock(x, y, z int) *Block {
     if y < 0 || y >= CHUNK_HEIGHT {
         panic("Invalid y-coordinate " + strconv.Itoa(y) + " for block")
     }

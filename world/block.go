@@ -57,25 +57,25 @@ func (self Block) GetRelative(face BlockFace) *Block {
         if cx > 0 {
             return self.owningChunk.Blocks[cx - 1][y][cz]
         } else {
-            return self.owningChunk.GetWorld().getBlock(cx - 1, y, cz)
+            return self.owningChunk.GetWorld().GetBlock(cx - 1, y, cz)
         }
     case RIGHT:
         if cx < CHUNK_LENGTH - 1 {
             return self.owningChunk.Blocks[cx + 1][y][cz]
         } else {
-            return self.owningChunk.GetWorld().getBlock(cx + 1, y, cz)
+            return self.owningChunk.GetWorld().GetBlock(cx + 1, y, cz)
         }
     case BACK:
         if cz > 0 {
             return self.owningChunk.Blocks[cx][y][cz - 1]
         } else {
-            return self.owningChunk.GetWorld().getBlock(cx, y, cz - 1)
+            return self.owningChunk.GetWorld().GetBlock(cx, y, cz - 1)
         }
     case FRONT:
         if cz < CHUNK_LENGTH - 1 {
             return self.owningChunk.Blocks[cx][y][cz + 1]
         } else {
-            return self.owningChunk.GetWorld().getBlock(cx, y, cz + 1)
+            return self.owningChunk.GetWorld().GetBlock(cx, y, cz + 1)
         }
     }
     return nil
