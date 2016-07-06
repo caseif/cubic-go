@@ -72,7 +72,7 @@ func initGL() {
     gl.UniformMatrix4fv(gl.GetUniformLocation(CameraShader, gl.Str("prMatrix\x00")), 1, false, &prMatrix[0])
     gl.UseProgram(0)
 
-    gl.ClearColor(1, 1, 0, 1)
+    gl.ClearColor(0.7, 0.7, 1, 1)
 }
 
 func startLoop(window *glfw.Window) {

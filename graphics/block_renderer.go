@@ -4,15 +4,16 @@ import (
     "github.com/go-gl/gl/v3.3-core/gl"
     "github.com/caseif/cubic-go/world"
     "github.com/go-gl/mathgl/mgl32"
+    "math"
 )
 
 const unitLength float32 = 0.5
 const floatsPerVertex = 3
-const floatsPerFace int = 6 * floatsPerVertex
+const floatsPerFace = 6 * floatsPerVertex
 
-var positionAttrIndex uint32 = 1<<31
-var colorAttrIndex uint32 = 1<<31
-var texCoordAttrIndex uint32 = 1<<31
+var positionAttrIndex uint32 = math.MaxUint32
+var colorAttrIndex uint32 = math.MaxUint32
+var texCoordAttrIndex uint32 = math.MaxUint32
 
 var chunkVboHandles = make(map[*world.Chunk]uint32)
 var chunkVboSizes = make(map[*world.Chunk]int32)
@@ -115,7 +116,7 @@ func createVbo(chunk *world.Chunk) *[]float32 {
 
 func createQuad(blockType world.BlockType, face world.BlockFace, v0, v1, v2, v3 *mgl32.Vec3) *[floatsPerFace]float32 {
     var buffer [floatsPerFace]float32
-    var bSlice = buffer[0:0]
+    bSlice := buffer[0:0]
     createVertex(&bSlice, v0, blockType, face, 0)
     createVertex(&bSlice, v1, blockType, face, 1)
     createVertex(&bSlice, v2, blockType, face, 2)
@@ -127,9 +128,7 @@ func createQuad(blockType world.BlockType, face world.BlockFace, v0, v1, v2, v3 
 
 func createVertex(buffer *[]float32, location *mgl32.Vec3, blockType world.BlockType, face world.BlockFace,
 ordinal int) {
-    *buffer = append(*buffer, location.X())
-    *buffer = append(*buffer, location.Y())
-    *buffer = append(*buffer, location.Z())
+    *buffer = append(*buffer, location.X(), location.Y(), location.Z())
     //TODO: textures and shit
 }
 
@@ -161,13 +160,13 @@ func renderChunk(chunk *world.Chunk) {
 }
 
 func checkIndices() {
-    if positionAttrIndex == 1<<31 {
+    if positionAttrIndex == math.MaxUint32 {
         positionAttrIndex = uint32(gl.GetAttribLocation(CameraShader, gl.Str("in_position\x00")))
     }
-    if colorAttrIndex == 1<<31 {
+    if colorAttrIndex == math.MaxUint32 {
         colorAttrIndex = uint32(gl.GetAttribLocation(CameraShader, gl.Str("in_color\x00")))
     }
-    if texCoordAttrIndex == 1<<31 {
+    if texCoordAttrIndex == math.MaxUint32 {
         texCoordAttrIndex = uint32(gl.GetAttribLocation(CameraShader, gl.Str("in_texCoord\x00")))
     }
 }

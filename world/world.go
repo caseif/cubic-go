@@ -30,9 +30,9 @@ func (self World) AddChunk(chunk *Chunk) {
     self.ChunkMap[*chunk.GetPosition()] = chunk
 }
 
-func (self World) GetBlock(x, y, z int) *Block {
+func (self World) GetBlock(x, y, z int32) *Block {
     if y < 0 || y >= CHUNK_HEIGHT {
-        panic("Invalid y-coordinate " + strconv.Itoa(y) + " for block")
+        panic("Invalid y-coordinate " + strconv.Itoa(int(y)) + " for block")
     }
 
     chunkX := float32(x / CHUNK_LENGTH)
@@ -45,10 +45,10 @@ func (self World) GetBlock(x, y, z int) *Block {
     normX := x % CHUNK_LENGTH
     normZ := z % CHUNK_LENGTH
     if x < 0 {
-        normX += 16
+        normX += CHUNK_LENGTH
     }
     if z < 0 {
-        normZ += 16
+        normZ += CHUNK_LENGTH
     }
 
     return chunk.Blocks[normX][y][normZ]

@@ -25,11 +25,11 @@ func (self Chunk) GetPosition() *mgl32.Vec2 {
 }
 
 func (self *Chunk) AddBlock(block *Block) {
-    var x int = int(block.GetPosition().X())
-    var y int = int(block.GetPosition().Y())
-    var z int = int(block.GetPosition().Z())
-    var cX int = int(self.GetPosition().X())
-    var cY int = int(self.GetPosition().Y())
+    x := int32(block.GetPosition().X())
+    y := int32(block.GetPosition().Y())
+    z := int32(block.GetPosition().Z())
+    cX := int32(self.GetPosition().X())
+    cY := int32(self.GetPosition().Y())
     if x / CHUNK_LENGTH != cX || z / CHUNK_LENGTH != cY || y < 0 || y >= CHUNK_HEIGHT {
         panic("Invalid block at " + util.Vec3ToStr(block.GetPosition()) + "added to chunk at " +
         util.Vec2ToStr(self.GetPosition()))

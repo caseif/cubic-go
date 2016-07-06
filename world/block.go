@@ -27,9 +27,9 @@ func (self Block) GetType() BlockType {
 }
 
 func (self Block) GetRelative(face BlockFace) *Block {
-    var x int = int(self.position.X())
-    var y int = int(self.position.Y())
-    var z int = int(self.position.Z())
+    x := int32(self.position.X())
+    y := int32(self.position.Y())
+    z := int32(self.position.Z())
 
     cx := x % CHUNK_LENGTH
     cz := z % CHUNK_LENGTH

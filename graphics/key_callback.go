@@ -7,10 +7,10 @@ import (
 )
 
 func KeyCallback(window *glfw.Window, key glfw.Key, scancode int, action glfw.Action, mods glfw.ModifierKey) {
-    var speed float32 = Speed
-    var vx float32 = 0
-    var vy float32 = 0
-    var vz float32 = 0
+    speed := Speed
+    vx := float32(0)
+    vy := float32(0)
+    vz := float32(0)
     if window.GetKey(glfw.KeyA) == glfw.Press {
         vx -= speed * util.Cos(CAMERA.Rotation.Y())
         vz -= speed * util.Sin(CAMERA.Rotation.Y())
