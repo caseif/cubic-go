@@ -7,12 +7,10 @@ import (
 
 const cameraFragShader string = `
 #version 330 core
-//uniform sampler2DArray texArray;
+uniform sampler2DArray texArray;
 in vec3 texCoord;
-in vec4 color;
 void main() {
-    //gl_FragColor = texture(texArray, texCoord);
-    gl_FragColor = vec4(1, 1, 1, 1);
+    gl_FragColor = texture(texArray, texCoord);
 }` + "\x00"
 
 const cameraVertShader string = `

@@ -5,6 +5,7 @@ import (
     "github.com/go-gl/gl/v3.3-core/gl"
     "github.com/caseif/cubic-go/world"
     "github.com/caseif/cubic-go/util"
+    "github.com/caseif/cubic-go/texture"
 )
 
 const width = 600
@@ -73,6 +74,8 @@ func initGL() {
     gl.UseProgram(0)
 
     gl.ClearColor(0.7, 0.7, 1, 1)
+
+    texture.RegisterBlockTextures()
 }
 
 func startLoop(window *glfw.Window) {

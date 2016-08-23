@@ -2,11 +2,14 @@ package world
 
 type BlockFace int
 
+//go:generate stringer -type=BlockFace
+
 const (
-    TOP BlockFace = iota
-    BOTTOM
-    LEFT
-    RIGHT
-    BACK
-    FRONT
+    None BlockFace = iota
+    Top
+    Bottom
+    Left
+    Right
+    Back
+    Front
 )

@@ -2,7 +2,14 @@ package world
 
 type BlockType int
 
+//go:generate stringer -type=BlockType
+
 const (
-    STONE BlockType = iota
-    GRASS
+    Stone BlockType = iota
+    Grass
 )
+
+var BlockTypes = []BlockType{
+    Stone,
+    Grass,
+}

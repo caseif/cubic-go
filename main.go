@@ -6,6 +6,13 @@ import (
     "github.com/go-gl/mathgl/mgl32"
 )
 
+// prereqs
+//go:generate go get -u github.com/jteeuwen/go-bindata/...
+//go:generate go get golang.org/x/tools/cmd/stringer
+
+// package binary data
+//go:generate go-bindata -o data/bindata.go -pkg data -prefix assets/ assets/...
+
 func main() {
     createDummyWorld()
     graphics.Init()
@@ -17,5 +24,5 @@ func createDummyWorld() {
     world.WORLD_SERVER.AddWorld(localWorld)
     chunk := world.CreateChunk(localWorld, &mgl32.Vec2{})
     localWorld.AddChunk(chunk)
-    chunk.AddBlock(world.CreateBlock(chunk, &mgl32.Vec3{0, 0, 0}, world.STONE))
+    chunk.AddBlock(world.CreateBlock(chunk, &mgl32.Vec3{0, 0, 0}, world.Stone))
 }

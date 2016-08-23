@@ -5,6 +5,7 @@ import (
     "github.com/caseif/cubic-go/world"
     "github.com/go-gl/mathgl/mgl32"
     "math"
+    "github.com/caseif/cubic-go/texture"
 )
 
 const unitLength float32 = 0.5
@@ -12,7 +13,6 @@ const floatsPerVertex = 3
 const floatsPerFace = 6 * floatsPerVertex
 
 var positionAttrIndex uint32 = math.MaxUint32
-var colorAttrIndex uint32 = math.MaxUint32
 var texCoordAttrIndex uint32 = math.MaxUint32
 
 var chunkVboHandles = make(map[*world.Chunk]uint32)
@@ -80,28 +80,28 @@ func createVbo(chunk *world.Chunk) *[]float32 {
                 c111 := &mgl32.Vec3{rX + unitLength, rY + unitLength, rZ + unitLength}
 
                 // back face
-                if b.GetRelative(world.BACK) == nil {
-                    faces = append(faces, *createQuad(blockType, world.BACK, c100, c000, c010, c110))
+                if b.GetRelative(world.Back) == nil {
+                    faces = append(faces, *createQuad(blockType, world.Back, c100, c000, c010, c110))
                 }
                 // front face
-                if b.GetRelative(world.FRONT) == nil {
-                    faces = append(faces, *createQuad(blockType, world.FRONT, c001, c101, c111, c011))
+                if b.GetRelative(world.Front) == nil {
+                    faces = append(faces, *createQuad(blockType, world.Front, c001, c101, c111, c011))
                 }
                 // left face
-                if b.GetRelative(world.LEFT) == nil {
-                    faces = append(faces, *createQuad(blockType, world.LEFT, c000, c001, c011, c010))
+                if b.GetRelative(world.Left) == nil {
+                    faces = append(faces, *createQuad(blockType, world.Left, c000, c001, c011, c010))
                 }
                 // right face
-                if b.GetRelative(world.RIGHT) == nil {
-                    faces = append(faces, *createQuad(blockType, world.RIGHT, c101, c100, c110, c111))
+                if b.GetRelative(world.Right) == nil {
+                    faces = append(faces, *createQuad(blockType, world.Right, c101, c100, c110, c111))
                 }
                 // bottom face
-                if b.GetRelative(world.BOTTOM) == nil {
-                    faces = append(faces, *createQuad(blockType, world.BOTTOM, c000, c100, c101, c001))
+                if b.GetRelative(world.Bottom) == nil {
+                    faces = append(faces, *createQuad(blockType, world.Bottom, c000, c100, c101, c001))
                 }
                 // top face
-                if b.GetRelative(world.TOP) == nil {
-                    faces = append(faces, *createQuad(blockType, world.TOP, c010, c011, c111, c110))
+                if b.GetRelative(world.Top) == nil {
+                    faces = append(faces, *createQuad(blockType, world.Top, c010, c011, c111, c110))
                 }
 
                 for _, face := range faces {
@@ -129,7 +129,14 @@ func createQuad(blockType world.BlockType, face world.BlockFace, v0, v1, v2, v3 
 func createVertex(buffer *[]float32, location *mgl32.Vec3, blockType world.BlockType, face world.BlockFace,
 ordinal int) {
     *buffer = append(*buffer, location.X(), location.Y(), location.Z())
-    //TODO: textures and shit
+    var t1, t2 float32 = 0, 0
+    if ordinal == 1 || ordinal == 2 {
+        t1 = 1
+    }
+    if ordinal >= 2 {
+        t2 = 1
+    }
+    *buffer = append(*buffer, t1, t2, float32(texture.GetTexLayer(blockType, face)))
 }
 
 func prepareVbo(handle uint32, vbo *[]float32) uint32 {
@@ -143,10 +150,10 @@ func prepareVbo(handle uint32, vbo *[]float32) uint32 {
     checkIndices()
 
     gl.EnableVertexAttribArray(positionAttrIndex)
-    //gl.EnableVertexAttribArray(texCoordAttrIndex)
+    gl.EnableVertexAttribArray(texCoordAttrIndex)
 
     gl.VertexAttribPointer(positionAttrIndex, 3, gl.FLOAT, false, 12, nil)
-    //gl.VertexAttribPointer(texCoordAttrIndex, 3, gl.FLOAT, false, 24, nil)
+    gl.VertexAttribPointer(texCoordAttrIndex, 3, gl.FLOAT, false, 24, nil)
 
     gl.BindVertexArray(0)
 
@@ -162,9 +169,6 @@ func renderChunk(chunk *world.Chunk) {
 func checkIndices() {
     if positionAttrIndex == math.MaxUint32 {
         positionAttrIndex = uint32(gl.GetAttribLocation(CameraShader, gl.Str("in_position\x00")))
-    }
-    if colorAttrIndex == math.MaxUint32 {
-        colorAttrIndex = uint32(gl.GetAttribLocation(CameraShader, gl.Str("in_color\x00")))
     }
     if texCoordAttrIndex == math.MaxUint32 {
         texCoordAttrIndex = uint32(gl.GetAttribLocation(CameraShader, gl.Str("in_texCoord\x00")))
