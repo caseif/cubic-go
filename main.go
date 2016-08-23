@@ -11,7 +11,7 @@ import (
 //go:generate go get golang.org/x/tools/cmd/stringer
 
 // package binary data
-//go:generate go-bindata -o data/bindata.go -pkg data -prefix assets/ assets/...
+//go:generate go-bindataz -o data/bindata.go -pkg data -prefix assets/ assets/...
 
 func main() {
     createDummyWorld()
@@ -24,5 +24,5 @@ func createDummyWorld() {
     world.WORLD_SERVER.AddWorld(localWorld)
     chunk := world.CreateChunk(localWorld, &mgl32.Vec2{})
     localWorld.AddChunk(chunk)
-    chunk.AddBlock(world.CreateBlock(chunk, &mgl32.Vec3{0, 0, 0}, world.Stone))
+    chunk.AddBlock(world.CreateBlock(chunk, &mgl32.Vec3{0, 0, 0}, world.Grass))
 }

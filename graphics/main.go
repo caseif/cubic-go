@@ -58,7 +58,7 @@ func initGL() {
     gl.DepthFunc(gl.LEQUAL)
     //gl.Enable(gl.CULL_FACE)
     //gl.CullFace(gl.BACK)
-    gl.PolygonMode(gl.FRONT_AND_BACK, gl.LINE)
+    gl.PolygonMode(gl.FRONT_AND_BACK, gl.FILL)
 
     gl.Viewport(0, 0, width, height)
 

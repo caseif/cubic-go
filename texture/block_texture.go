@@ -5,6 +5,7 @@ import (
     "github.com/caseif/cubic-go/data"
     "bytes"
     "strings"
+    "fmt"
 )
 
 const path_prefix = "textures/block/"
@@ -42,6 +43,7 @@ func createBlockTextureFace(blockType world.BlockType, face world.BlockFace) (*B
     if err != nil {
         return nil, err
     }
+    regTexes++
     return &BlockTextureFace{bin: bin}, nil
 }
 
@@ -57,16 +59,16 @@ func createBlockTexture(blockType world.BlockType) *BlockTexture {
         tex, err := createBlockTextureFace(blockType, world.BlockFace(face))
         if err == nil {
             faceMap[face] = tex
-        } else {
-            faceMap[face] = faceMap[world.None]
         }
     }
-    return &BlockTexture{faceMap}
+    return &BlockTexture{faces: faceMap}
 }
 
-func (self *BlockTexture) GetTextureFace(face world.BlockFace) *BlockTextureFace {
+func (self *BlockTexture) getTextureFace(face world.BlockFace) *BlockTextureFace {
     if face, ok := self.faces[face]; ok {
+        fmt.Println("ok")
         return face
     }
+    fmt.Println("not ok")
     return self.faces[world.None]
 }

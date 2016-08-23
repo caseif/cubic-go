@@ -9,7 +9,7 @@ import (
 )
 
 const unitLength float32 = 0.5
-const floatsPerVertex = 3
+const floatsPerVertex = 6
 const floatsPerFace = 6 * floatsPerVertex
 
 var positionAttrIndex uint32 = math.MaxUint32
@@ -133,7 +133,7 @@ ordinal int) {
     if ordinal == 1 || ordinal == 2 {
         t1 = 1
     }
-    if ordinal >= 2 {
+    if ordinal <= 1 {
         t2 = 1
     }
     *buffer = append(*buffer, t1, t2, float32(texture.GetTexLayer(blockType, face)))
@@ -152,7 +152,7 @@ func prepareVbo(handle uint32, vbo *[]float32) uint32 {
     gl.EnableVertexAttribArray(positionAttrIndex)
     gl.EnableVertexAttribArray(texCoordAttrIndex)
 
-    gl.VertexAttribPointer(positionAttrIndex, 3, gl.FLOAT, false, 12, nil)
+    gl.VertexAttribPointer(positionAttrIndex, 3, gl.FLOAT, false, 24, nil)
     gl.VertexAttribPointer(texCoordAttrIndex, 3, gl.FLOAT, false, 24, nil)
 
     gl.BindVertexArray(0)
