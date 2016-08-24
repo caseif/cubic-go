@@ -6,6 +6,7 @@ import (
     "github.com/go-gl/mathgl/mgl32"
     "math"
     "github.com/caseif/cubic-go/texture"
+    "fmt"
 )
 
 const unitLength float32 = 0.5
@@ -136,7 +137,9 @@ ordinal int) {
     if ordinal <= 1 {
         t2 = 1
     }
-    *buffer = append(*buffer, t1, t2, float32(texture.GetTexLayer(blockType, face)))
+    layer := texture.GetTexLayer(blockType, face)
+    fmt.Println(layer)
+    *buffer = append(*buffer, t1, t2, float32(layer))
 }
 
 func prepareVbo(handle uint32, vbo *[]float32) uint32 {
@@ -152,8 +155,8 @@ func prepareVbo(handle uint32, vbo *[]float32) uint32 {
     gl.EnableVertexAttribArray(positionAttrIndex)
     gl.EnableVertexAttribArray(texCoordAttrIndex)
 
-    gl.VertexAttribPointer(positionAttrIndex, 3, gl.FLOAT, false, 24, nil)
-    gl.VertexAttribPointer(texCoordAttrIndex, 3, gl.FLOAT, false, 24, nil)
+    gl.VertexAttribPointer(positionAttrIndex, 3, gl.FLOAT, false, 6 * 4, gl.PtrOffset(0 * 4))
+    gl.VertexAttribPointer(texCoordAttrIndex, 3, gl.FLOAT, false, 6 * 4, gl.PtrOffset(3 * 4))
 
     gl.BindVertexArray(0)
 

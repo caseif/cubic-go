@@ -57,7 +57,7 @@ func createTextureArray() {
                 panic("Bad block texture " + def + " (" + err.Error() + ")")
             }
             rgba := image.NewRGBA(img.Bounds())
-            if rgba.Stride != rgba.Rect.Size().X*4 {
+            if rgba.Stride != rgba.Rect.Size().X * 4 {
                 panic("Unsupported stride for block texture " + def)
             }
             draw.Draw(rgba, rgba.Bounds(), img, image.Point{0, 0}, draw.Src)

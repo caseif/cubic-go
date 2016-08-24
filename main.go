@@ -11,7 +11,7 @@ import (
 //go:generate go get golang.org/x/tools/cmd/stringer
 
 // package binary data
-//go:generate go-bindataz -o data/bindata.go -pkg data -prefix assets/ assets/...
+//go:generate go-bindata -o data/bindata.go -pkg data -prefix assets/ assets/...
 
 func main() {
     createDummyWorld()
