@@ -7,8 +7,6 @@ import (
     "image/draw"
     "image/png"
     "bytes"
-    "fmt"
-    "strconv"
 )
 
 const texSize = 128
@@ -29,7 +27,6 @@ func GetTexLayer(blockType world.BlockType, face world.BlockFace) int32 {
         panic("Texture for block type " + blockType.String() + " is not registered")
     }
     layer := blockTex.getTextureFace(face).layer
-    fmt.Println("type=" + blockType.String() + ";face=" + face.String() + ";layer=" + strconv.Itoa(int(layer)))
     return layer
 }
 

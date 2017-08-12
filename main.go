@@ -24,5 +24,14 @@ func createDummyWorld() {
     world.WORLD_SERVER.AddWorld(localWorld)
     chunk := world.CreateChunk(localWorld, &mgl32.Vec2{})
     localWorld.AddChunk(chunk)
-    chunk.AddBlock(world.CreateBlock(chunk, &mgl32.Vec3{0, 0, 0}, world.Grass))
+
+    start := 0
+    end := 16
+    for x := start; x < end; x++ {
+        for y := start; y < end; y++ {
+            for z := start; z < end; z++ {
+                chunk.AddBlock(world.CreateBlock(chunk, &mgl32.Vec3{float32(x), float32(y), float32(z)}, world.Grass))
+            }
+        }
+    }
 }

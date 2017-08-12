@@ -33,6 +33,12 @@ func render(world *world.World) {
 
     for _, chunk := range world.ChunkMap {
         if chunk.Dirty {
+            handle, hasHandle := chunkVboHandles[chunk]
+            if !hasHandle {
+                gl.GenBuffers(1, &handle)
+                chunkVboHandles[chunk] = handle
+            }
+
             vbo := createVbo(chunk)
 
             if handle := chunkVaoHandles[chunk]; handle != 0 {
@@ -40,11 +46,7 @@ func render(world *world.World) {
             }
 
             chunkVboSizes[chunk] = int32(len(*vbo))
-            handle, hasHandle := chunkVboHandles[chunk]
-            if !hasHandle {
-                gl.GenBuffers(1, &handle)
-                chunkVboHandles[chunk] = handle
-            }
+
             chunkVaoHandles[chunk] = prepareVbo(handle, vbo)
 
             chunk.Dirty = false
@@ -81,29 +83,30 @@ func createVbo(chunk *world.Chunk) *[]float32 {
                 c111 := &mgl32.Vec3{rX + unitLength, rY + unitLength, rZ + unitLength}
 
                 // back face
-                if b.GetRelative(world.Back) == nil {
+                //if b.GetRelative(world.Back) == nil {
                     faces = append(faces, *createQuad(blockType, world.Back, c100, c000, c010, c110))
-                }
+                //}
                 // front face
-                if b.GetRelative(world.Front) == nil {
+                //if b.GetRelative(world.Front) == nil {
                     faces = append(faces, *createQuad(blockType, world.Front, c001, c101, c111, c011))
-                }
+                //}
                 // left face
-                if b.GetRelative(world.Left) == nil {
+                //if b.GetRelative(world.Left) == nil {
+                //if b.GetPosition().X() * 256 + b.GetPosition().Y() * 16 + b.GetPosition().Z() < 1402 {
                     faces = append(faces, *createQuad(blockType, world.Left, c000, c001, c011, c010))
-                }
+                //}
                 // right face
-                if b.GetRelative(world.Right) == nil {
+                //if b.GetRelative(world.Right) == nil {
                     faces = append(faces, *createQuad(blockType, world.Right, c101, c100, c110, c111))
-                }
+                //}
                 // bottom face
-                if b.GetRelative(world.Bottom) == nil {
+                //if b.GetRelative(world.Bottom) == nil {
                     faces = append(faces, *createQuad(blockType, world.Bottom, c000, c100, c101, c001))
-                }
+                //}
                 // top face
-                if b.GetRelative(world.Top) == nil {
+                //if b.GetRelative(world.Top) == nil {
                     faces = append(faces, *createQuad(blockType, world.Top, c010, c011, c111, c110))
-                }
+                //}
 
                 for _, face := range faces {
                     buffer = append(buffer, face[:]...)
@@ -138,7 +141,6 @@ ordinal int) {
         t2 = 1
     }
     layer := texture.GetTexLayer(blockType, face)
-    fmt.Println(layer)
     *buffer = append(*buffer, t1, t2, float32(layer))
 }
 

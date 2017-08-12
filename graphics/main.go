@@ -6,12 +6,15 @@ import (
     "github.com/caseif/cubic-go/world"
     "github.com/caseif/cubic-go/util"
     "github.com/caseif/cubic-go/texture"
+    "runtime"
 )
 
 const width = 600
 const height = 600
 
 func Init() {
+    runtime.LockOSThread()
+
     window := initGLFW()
     defer glfw.Terminate()
     initGL()

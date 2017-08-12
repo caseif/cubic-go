@@ -5,7 +5,6 @@ import (
     "github.com/caseif/cubic-go/data"
     "bytes"
     "strings"
-    "fmt"
 )
 
 const path_prefix = "textures/block/"
@@ -66,9 +65,7 @@ func createBlockTexture(blockType world.BlockType) *BlockTexture {
 
 func (self *BlockTexture) getTextureFace(face world.BlockFace) *BlockTextureFace {
     if face, ok := self.faces[face]; ok {
-        fmt.Println("ok")
         return face
     }
-    fmt.Println("not ok")
     return self.faces[world.None]
 }
