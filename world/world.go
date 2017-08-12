@@ -4,6 +4,7 @@ import (
     "github.com/go-gl/mathgl/mgl32"
     "strconv"
     "github.com/caseif/cubic-go/util"
+    "fmt"
 )
 
 const CHUNK_LENGTH = 16
@@ -35,8 +36,8 @@ func (self World) GetBlock(x, y, z int32) *Block {
         panic("Invalid y-coordinate " + strconv.Itoa(int(y)) + " for block")
     }
 
-    chunkX := float32(x / CHUNK_LENGTH)
-    chunkZ := float32(z / CHUNK_LENGTH)
+    chunkX := float32(util.DivFloor(x, CHUNK_LENGTH))
+    chunkZ := float32(util.DivFloor(z, CHUNK_LENGTH))
     chunk, ok := self.ChunkMap[mgl32.Vec2{chunkX, chunkZ}]
     if !ok {
         return nil
@@ -49,6 +50,10 @@ func (self World) GetBlock(x, y, z int32) *Block {
     }
     if z < 0 {
         normZ += CHUNK_LENGTH
+    }
+
+    if x == -1 {
+        fmt.Printf("%f %d\n", -1 / CHUNK_LENGTH, normX)
     }
 
     return chunk.Blocks[normX][y][normZ]

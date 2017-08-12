@@ -83,30 +83,31 @@ func createVbo(chunk *world.Chunk) *[]float32 {
                 c111 := &mgl32.Vec3{rX + unitLength, rY + unitLength, rZ + unitLength}
 
                 // back face
-                //if b.GetRelative(world.Back) == nil {
+                if b.GetRelative(world.Back) == nil {
                     faces = append(faces, *createQuad(blockType, world.Back, c100, c000, c010, c110))
-                //}
+                }
                 // front face
-                //if b.GetRelative(world.Front) == nil {
+                if b.GetRelative(world.Front) == nil {
                     faces = append(faces, *createQuad(blockType, world.Front, c001, c101, c111, c011))
-                //}
+                }
                 // left face
-                //if b.GetRelative(world.Left) == nil {
-                //if b.GetPosition().X() * 256 + b.GetPosition().Y() * 16 + b.GetPosition().Z() < 1402 {
+                if b.GetRelative(world.Left) == nil {
                     faces = append(faces, *createQuad(blockType, world.Left, c000, c001, c011, c010))
-                //}
+                } else if b.GetPosition().X() == 0 {
+                    fmt.Printf("%s\n", b.GetRelative(world.Left).GetType().String())
+                }
                 // right face
-                //if b.GetRelative(world.Right) == nil {
+                if b.GetRelative(world.Right) == nil {
                     faces = append(faces, *createQuad(blockType, world.Right, c101, c100, c110, c111))
-                //}
+                }
                 // bottom face
-                //if b.GetRelative(world.Bottom) == nil {
+                if b.GetRelative(world.Bottom) == nil {
                     faces = append(faces, *createQuad(blockType, world.Bottom, c000, c100, c101, c001))
-                //}
+                }
                 // top face
-                //if b.GetRelative(world.Top) == nil {
+                if b.GetRelative(world.Top) == nil {
                     faces = append(faces, *createQuad(blockType, world.Top, c010, c011, c111, c110))
-                //}
+                }
 
                 for _, face := range faces {
                     buffer = append(buffer, face[:]...)

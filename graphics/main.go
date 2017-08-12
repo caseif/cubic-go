@@ -9,8 +9,8 @@ import (
     "runtime"
 )
 
-const width = 600
-const height = 600
+const width = 1280
+const height = 720
 
 func Init() {
     runtime.LockOSThread()

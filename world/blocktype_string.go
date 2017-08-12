@@ -4,9 +4,9 @@ package world
 
 import "fmt"
 
-const _BlockType_name = "StoneGrass"
+const _BlockType_name = "StoneGrassDirt"
 
-var _BlockType_index = [...]uint8{0, 5, 10}
+var _BlockType_index = [...]uint8{0, 5, 10, 14}
 
 func (i BlockType) String() string {
 	if i < 0 || i >= BlockType(len(_BlockType_index)-1) {

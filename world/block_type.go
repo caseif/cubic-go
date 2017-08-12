@@ -7,9 +7,11 @@ type BlockType int
 const (
     Stone BlockType = iota
     Grass
+    Dirt
 )
 
 var BlockTypes = []BlockType{
     Stone,
     Grass,
+    Dirt,
 }
