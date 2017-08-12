@@ -6,7 +6,6 @@ import (
     "github.com/go-gl/mathgl/mgl32"
     "math"
     "github.com/caseif/cubic-go/texture"
-    "fmt"
 )
 
 const unitLength float32 = 0.5
@@ -93,8 +92,6 @@ func createVbo(chunk *world.Chunk) *[]float32 {
                 // left face
                 if b.GetRelative(world.Left) == nil {
                     faces = append(faces, *createQuad(blockType, world.Left, c000, c001, c011, c010))
-                } else if b.GetPosition().X() == 0 {
-                    fmt.Printf("%s\n", b.GetRelative(world.Left).GetType().String())
                 }
                 // right face
                 if b.GetRelative(world.Right) == nil {

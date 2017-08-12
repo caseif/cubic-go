@@ -47,6 +47,13 @@ func createTextureArray() {
     gl.BindTexture(gl.TEXTURE_2D_ARRAY, handle)
     gl.TexStorage3D(gl.TEXTURE_2D_ARRAY, 1, gl.RGBA8, texSize, texSize, regTexes)
 
+    gl.TexParameteri(gl.TEXTURE_2D_ARRAY, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+    gl.TexParameteri(gl.TEXTURE_2D_ARRAY, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+
+    // I had a shader-based solution I was really proud of before I figured out how to get this working :(
+    gl.TexParameteri(gl.TEXTURE_2D_ARRAY, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+    gl.TexParameteri(gl.TEXTURE_2D_ARRAY, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+
     var layer int32 = 0
     for blockType, tex := range blockTextures {
         for face, subTex := range tex.faces {
