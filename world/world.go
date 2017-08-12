@@ -2,6 +2,7 @@ package world
 
 import (
     "github.com/go-gl/mathgl/mgl32"
+    "strconv"
     "github.com/caseif/cubic-go/util"
 )
 
@@ -14,7 +15,7 @@ type World struct {
 }
 
 func CreateWorld(name string) *World {
-    return &World{name: name, ChunkMap: make(map[mgl32.Vec2]*Chunk)}
+    return &World{name, make(map[mgl32.Vec2]*Chunk)}
 }
 
 func (self World) GetName() string {
@@ -31,7 +32,7 @@ func (self World) AddChunk(chunk *Chunk) {
 
 func (self World) GetBlock(x, y, z int32) *Block {
     if y < 0 || y >= CHUNK_HEIGHT {
-        return nil
+        panic("Invalid y-coordinate " + strconv.Itoa(int(y)) + " for block")
     }
 
     chunkX := float32(x / CHUNK_LENGTH)

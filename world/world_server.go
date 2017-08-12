@@ -1,6 +1,6 @@
 package world
 
-var GlobalWorldServer WorldServer = WorldServer{}
+var WORLD_SERVER WorldServer = WorldServer{}
 
 type WorldServer struct {
     worlds map[string]*World

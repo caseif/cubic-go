@@ -84,7 +84,7 @@ func startLoop(window *glfw.Window) {
 
         CAMERA.UpdatePosition()
 
-        render(world.GlobalWorldServer.GetWorld("world")) //TODO: fix this once entities are implemented
+        render(world.WORLD_SERVER.GetWorld("world")) //TODO: fix this once entities are implemented
 
         window.SwapBuffers()
         glfw.PollEvents()

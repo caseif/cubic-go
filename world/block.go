@@ -2,21 +2,16 @@ package world
 
 import (
     "github.com/go-gl/mathgl/mgl32"
-    "github.com/caseif/cubic-go/util"
 )
-
-var unit = mgl32.Vec3{1, 1, 1}
 
 type Block struct {
     owningChunk *Chunk
     position mgl32.Vec3
-    boundingBox util.BoundingBox
     blockType BlockType
 }
 
 func CreateBlock(owningChunk *Chunk, position *mgl32.Vec3, blockType BlockType) *Block {
-    return &Block{owningChunk: owningChunk, position: *position, boundingBox: *util.CreateBoundingBox(position, &unit),
-        blockType: blockType}
+    return &Block{owningChunk, *position, blockType}
 }
 
 func (self Block) GetOwningChunk() *Chunk {
@@ -25,10 +20,6 @@ func (self Block) GetOwningChunk() *Chunk {
 
 func (self Block) GetPosition() *mgl32.Vec3 {
     return &self.position
-}
-
-func (self Block) GetBoundingBox() *util.BoundingBox {
-    return &self.boundingBox
 }
 
 func (self Block) GetType() BlockType {

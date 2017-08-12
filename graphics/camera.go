@@ -5,28 +5,17 @@ import (
     "github.com/caseif/cubic-go/util"
     "github.com/go-gl/gl/v3.3-core/gl"
     "math"
-    "github.com/caseif/cubic-go/world"
-    "fmt"
 )
 
 const Speed float32 = 0.02
 
-var size = mgl32.Vec3{1, 2, 1}
-
-var CAMERA = CreateCamera()
+var CAMERA = Camera{}
 
 type Camera struct {
     Translation mgl32.Vec3
     Rotation mgl32.Vec3
     Velocity mgl32.Vec3
     dirtyTranslation, dirtyRotX, dirtyRotY, dirtyRotZ bool
-    boundingBox util.BoundingBox
-}
-
-func CreateCamera() *Camera {
-    camera := Camera{}
-    camera.boundingBox = *util.CreateBoundingBox(&mgl32.Vec3{}, &size)
-    return &camera
 }
 
 func (self *Camera) TranslateBy(translation mgl32.Vec3) {
@@ -62,14 +51,7 @@ func (self Camera) GetZRotationMatrix() *mgl32.Mat4 {
 }
 
 func (self *Camera) UpdatePosition() {
-    self.boundingBox.SetPos(self.Translation.Sub(self.Velocity).Mul(unitLength))
-    if doBoundChecks(&self.boundingBox) {
-        self.boundingBox.SetPos(self.Translation.Mul(unitLength))
-        self.Velocity = mgl32.Vec3{}
-        return
-    }
     self.TranslateBy(self.Velocity)
-    self.boundingBox.SetPos(self.Translation.Mul(unitLength))
     if self.dirtyTranslation {
         gl.UniformMatrix4fv(TrMatLoc, 1, false, &self.GetTranslationMatrix()[0])
         self.dirtyTranslation = false
@@ -86,29 +68,4 @@ func (self *Camera) UpdatePosition() {
         gl.UniformMatrix4fv(RotZMatLoc, 1, false, &self.GetZRotationMatrix()[0])
         self.dirtyRotZ = false
     }
-}
-
-func doBoundChecks(box *util.BoundingBox) bool {
-    minX := int32(math.Floor(float64(box.Pos.X() - box.Size.X() / 2)))
-    maxX := int32(math.Floor(float64(box.Pos.X() + box.Size.X() / 2)))
-    minY := int32(math.Floor(float64(box.Pos.Y() - box.Size.Y() / 2)))
-    maxY := int32(math.Floor(float64(box.Pos.Y() + box.Size.Y() / 2)))
-    minZ := int32(math.Floor(float64(box.Pos.Z() - box.Size.Z() / 2)))
-    maxZ := int32(math.Floor(float64(box.Pos.Z() + box.Size.Z() / 2)))
-    for x := minX; x <= maxX; x++ {
-        for y := minY; y <= maxY; y++ {
-            for z := minZ; z <= maxZ; z++ {
-                block := world.GlobalWorldServer.GetWorld("world").GetBlock(x, y, z)
-                if x == 0 && y == 0 && z == 0 {
-                    fmt.Println("checking block")
-                }
-                if block != nil {
-                    if block.GetBoundingBox().Collides(box) {
-                        return true
-                    }
-                }
-            }
-        }
-    }
-    return false
 }
