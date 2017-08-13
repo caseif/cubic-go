@@ -86,11 +86,11 @@ func startLoop(window *glfw.Window) {
     for !window.ShouldClose() {
         gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
-        UpdateCamera(world.WORLD_SERVER.Player.Position())
+        UpdateCamera(world.ServerInst.Player.Position())
 
         WorldCamera.applyTransformations()
 
-        render(world.WORLD_SERVER.GetWorld("world")) //TODO: fix this once entities are implemented
+        render(world.ServerInst.GetWorld("world")) //TODO: fix this once entities are implemented
 
         window.SwapBuffers()
         glfw.PollEvents()

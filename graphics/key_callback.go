@@ -5,12 +5,13 @@ import (
     "github.com/go-gl/mathgl/mgl32"
     "github.com/caseif/cubic-go/util"
     "github.com/caseif/cubic-go/world"
+    "fmt"
 )
 
 func KeyCallback(window *glfw.Window, key glfw.Key, scancode int, action glfw.Action, mods glfw.ModifierKey) {
-    speed := util.PlayerSpeed
+    speed := util.PlayerSpeed / util.TicksPerSecond
     vx := float32(0)
-    vy := float32(0)
+    vy := world.ServerInst.Player.Velocity.Y()
     vz := float32(0)
     if window.GetKey(glfw.KeyA) == glfw.Press {
         vx -= speed * util.Cos(WorldCamera.Rotation.Y())
@@ -29,11 +30,14 @@ func KeyCallback(window *glfw.Window, key glfw.Key, scancode int, action glfw.Ac
         vz += speed * util.Cos(WorldCamera.Rotation.Y())
     }
     if window.GetKey(glfw.KeyLeftShift) == glfw.Press {
-        vy -= speed
+        //vy -= speed
     }
     if window.GetKey(glfw.KeySpace) == glfw.Press {
-        vy += speed
+        if world.ServerInst.Player.OnGround() {
+            fmt.Println("applying jump")
+            vy = util.JumpStrength
+        }
     }
 
-    world.WORLD_SERVER.Player.Velocity = mgl32.Vec3{vx, vy, vz}
+    world.ServerInst.Player.Velocity = mgl32.Vec3{vx, vy, vz}
 }

@@ -14,6 +14,7 @@ type Entity struct {
     world *World
     position mgl32.Vec3
     Velocity mgl32.Vec3
+    ground bool
 }
 
 func (self *Entity) UUID() uuid.UUID {
@@ -30,6 +31,10 @@ func (self *Entity) World() *World {
 
 func (self *Entity) Position() mgl32.Vec3 {
     return self.position
+}
+
+func (self *Entity) OnGround() bool {
+    return self.ground
 }
 
 func (self *Entity) UpdatePosition() {
@@ -70,23 +75,24 @@ func (self *Entity) UpdatePosition() {
         }
     }
 
-    if freezeX || freezeY || freezeZ {
-        vx := self.Velocity.X()
-        vy := self.Velocity.Y()
-        vz := self.Velocity.Z()
+    vx := self.Velocity.X()
+    vy := self.Velocity.Y()
+    vz := self.Velocity.Z()
 
-        if freezeX {
-            vx = 0
-        }
-        if freezeY {
-            vy = 0
-        }
-        if freezeZ {
-            vz = 0
-        }
-
-        self.Velocity = mgl32.Vec3{vx, vy, vz}
+    if freezeX {
+        vx = 0
     }
+    if freezeY {
+        vy = 0
+        self.ground = true
+    } else {
+        self.ground = false
+    }
+    if freezeZ {
+        vz = 0
+    }
+
+    self.Velocity = mgl32.Vec3{vx, vy - util.Gravity / util.TicksPerSecond, vz}
 }
 
 func (self *Entity) possibleCollisions() []*Block {
@@ -130,7 +136,7 @@ func (self *Entity) collides(block *Block) bool {
 }
 
 func CreateEntity(id uuid.UUID, eType EntityType, world *World, position mgl32.Vec3) *Entity {
-    ent := &Entity{id, eType, world, position, mgl32.Vec3{}}
+    ent := &Entity{id, eType, world, position, mgl32.Vec3{}, false}
     world.AddEntity(ent)
     return ent
 }

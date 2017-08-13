@@ -2,13 +2,14 @@ package world
 
 import (
     "time"
+    "github.com/caseif/cubic-go/util"
 )
 
-var WORLD_SERVER WorldServer = WorldServer{}
+var ServerInst WorldServer = WorldServer{}
 
 var lastTick time.Time
 
-var TickLength = 10 * time.Millisecond // 100 tps
+var TickLength = (1000 / util.TicksPerSecond) * time.Millisecond
 
 type WorldServer struct {
     worlds map[string]*World

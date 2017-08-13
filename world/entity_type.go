@@ -9,5 +9,5 @@ const (
 )
 
 var BoundingBoxMap = map[EntityType]mgl32.Vec3{
-    Player: {1, 2, 1},
+    Player: {0.6, 1.8, 0.6},
 }

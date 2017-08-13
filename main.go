@@ -20,14 +20,14 @@ import (
 func main() {
     createDummyWorld()
 
-    world.WORLD_SERVER.Init()
+    world.ServerInst.Init()
 
     graphics.Init()
 }
 
 func createDummyWorld() {
     localWorld := world.CreateWorld("world")
-    world.WORLD_SERVER.AddWorld(localWorld)
+    world.ServerInst.AddWorld(localWorld)
     chunk := world.CreateChunk(localWorld, &mgl32.Vec2{})
     localWorld.AddChunk(chunk)
 
@@ -51,5 +51,5 @@ func createDummyWorld() {
     }
 
     id, _ := uuid.NewRandom()
-    world.WORLD_SERVER.Player = world.CreateEntity(id, world.Player, localWorld, mgl32.Vec3{1.5, 2, 1.5})
+    world.ServerInst.Player = world.CreateEntity(id, world.Player, localWorld, mgl32.Vec3{1.5, 2, 1.5})
 }
