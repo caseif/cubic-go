@@ -7,9 +7,9 @@ import (
 
 func GetTranslationMatrix(translation mgl32.Vec3) *mgl32.Mat4 {
     mat := mgl32.Ident4()
-    mat.Set(0, 3, translation.X())
-    mat.Set(1, 3, translation.Y())
-    mat.Set(2, 3, translation.Z())
+    mat.Set(0, 3, -translation.X() * UnitLength)
+    mat.Set(1, 3, -translation.Y() * UnitLength)
+    mat.Set(2, 3, -translation.Z() * UnitLength)
     return &mat
 }
 

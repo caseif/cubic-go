@@ -6,9 +6,9 @@ import (
     "github.com/go-gl/mathgl/mgl32"
     "math"
     "github.com/caseif/cubic-go/texture"
+    "github.com/caseif/cubic-go/util"
 )
 
-const unitLength float32 = 0.5
 const floatsPerVertex = 6
 const floatsPerFace = 6 * floatsPerVertex
 
@@ -66,20 +66,20 @@ func createVbo(chunk *world.Chunk) *[]float32 {
                 }
                 blockType := b.GetType()
 
-                rX := float32(x) * unitLength
-                rY := float32(y) * unitLength
-                rZ := float32(z) * unitLength
+                rX := float32(x) * util.UnitLength
+                rY := float32(y) * util.UnitLength
+                rZ := float32(z) * util.UnitLength
 
                 faces := make([][floatsPerFace]float32, 0, 6)
 
-                c000 := &mgl32.Vec3{rX,              rY,              rZ}
-                c001 := &mgl32.Vec3{rX,              rY,              rZ + unitLength}
-                c010 := &mgl32.Vec3{rX,              rY + unitLength, rZ}
-                c011 := &mgl32.Vec3{rX,              rY + unitLength, rZ + unitLength}
-                c100 := &mgl32.Vec3{rX + unitLength, rY,              rZ}
-                c101 := &mgl32.Vec3{rX + unitLength, rY,              rZ + unitLength}
-                c110 := &mgl32.Vec3{rX + unitLength, rY + unitLength, rZ}
-                c111 := &mgl32.Vec3{rX + unitLength, rY + unitLength, rZ + unitLength}
+                c000 := &mgl32.Vec3{rX,                   rY,                   rZ}
+                c001 := &mgl32.Vec3{rX,                   rY,                   rZ + util.UnitLength}
+                c010 := &mgl32.Vec3{rX,                   rY + util.UnitLength, rZ}
+                c011 := &mgl32.Vec3{rX,                   rY + util.UnitLength, rZ + util.UnitLength}
+                c100 := &mgl32.Vec3{rX + util.UnitLength, rY,                   rZ}
+                c101 := &mgl32.Vec3{rX + util.UnitLength, rY,                   rZ + util.UnitLength}
+                c110 := &mgl32.Vec3{rX + util.UnitLength, rY + util.UnitLength, rZ}
+                c111 := &mgl32.Vec3{rX + util.UnitLength, rY + util.UnitLength, rZ + util.UnitLength}
 
                 // back face
                 if b.GetRelative(world.Back) == nil {

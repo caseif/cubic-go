@@ -52,5 +52,5 @@ func createDummyWorld() {
     }
 
     id, _ := uuid.NewRandom()
-    world.WORLD_SERVER.Player = world.CreateEntity(id, world.Player, localWorld, mgl32.Vec3{})
+    world.WORLD_SERVER.Player = world.CreateEntity(id, world.Player, localWorld, mgl32.Vec3{1.5, 2.75, 1.5})
 }

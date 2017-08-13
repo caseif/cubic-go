@@ -31,7 +31,7 @@ func (self *Entity) Position() mgl32.Vec3 {
 }
 
 func (self *Entity) UpdatePosition() {
-    self.position = self.position.Sub(self.Velocity)
+    self.position = self.position.Add(self.Velocity)
 }
 
 func (self *Entity) Tick() {

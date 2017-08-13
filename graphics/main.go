@@ -68,9 +68,9 @@ func initGL() {
 
     initCameraShader()
 
-    var fov float32 = 15
     var znear float32 = 1
     var zfar float32 = 10
+    var fov float32 = 20
 
     gl.UseProgram(CameraShader)
     prMatrix := *util.Perspective(znear, zfar, fov, float32(width) / float32(height))

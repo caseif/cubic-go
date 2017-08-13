@@ -7,10 +7,8 @@ import (
     "github.com/caseif/cubic-go/world"
 )
 
-const Speed float32 = 0.02
-
 func KeyCallback(window *glfw.Window, key glfw.Key, scancode int, action glfw.Action, mods glfw.ModifierKey) {
-    speed := Speed
+    speed := util.PlayerSpeed
     vx := float32(0)
     vy := float32(0)
     vz := float32(0)
