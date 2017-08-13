@@ -43,7 +43,7 @@ func (self *Camera) RotateBy(pitch, yaw float32) {
 }
 
 func (self Camera) GetTranslationMatrix() *mgl32.Mat4 {
-    return util.GetTranslationMatrix(self.translation.Add(Offset.Mul(util.UnitLength)))
+    return util.GetTranslationMatrix(self.translation.Add(Offset))
 }
 
 func (self Camera) GetXRotationMatrix() *mgl32.Mat4 {

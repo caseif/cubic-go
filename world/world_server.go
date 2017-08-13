@@ -46,7 +46,7 @@ func (self *WorldServer) RemoveWorld(world *World) {
 }
 
 func (self *WorldServer) Tick() {
-    if (time.Now().Sub(lastTick) < TickLength) {
+    if time.Now().Sub(lastTick) < TickLength {
         return
     }
 

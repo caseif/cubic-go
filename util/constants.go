@@ -1,6 +1,6 @@
 package util
 
-const UnitLength float32 = 1
+const UnitLength float32 = 10
 
 const TicksPerSecond = 100
 
