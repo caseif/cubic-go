@@ -26,7 +26,6 @@ func main() {
 }
 
 func createDummyWorld() {
-    graphics.CAMERA.Translate(graphics.CAMERA.Translation().Add(mgl32.Vec3{0, 0, -2}))
     localWorld := world.CreateWorld("world")
     world.WORLD_SERVER.AddWorld(localWorld)
     chunk := world.CreateChunk(localWorld, &mgl32.Vec2{})
@@ -52,5 +51,5 @@ func createDummyWorld() {
     }
 
     id, _ := uuid.NewRandom()
-    world.WORLD_SERVER.Player = world.CreateEntity(id, world.Player, localWorld, mgl32.Vec3{1.5, 2.75, 1.5})
+    world.WORLD_SERVER.Player = world.CreateEntity(id, world.Player, localWorld, mgl32.Vec3{1.5, 2, 1.5})
 }

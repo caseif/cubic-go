@@ -22,6 +22,6 @@ func PollMouse(window *glfw.Window) {
     deltaY := math.Floor(cursorY - prevY)
 
     if deltaX != 0 || deltaY != 0 {
-        CAMERA.RotateBy(float32(deltaY * LookResolution), float32(deltaX * LookResolution))
+        WorldCamera.RotateBy(float32(deltaY * LookResolution), float32(deltaX * LookResolution))
     }
 }

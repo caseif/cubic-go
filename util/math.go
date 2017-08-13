@@ -17,6 +17,6 @@ func Clamp(val, min, max float32) float32 {
     return float32(math.Max(float64(min), math.Min(float64(max), float64(val))))
 }
 
-func DivFloor(n, d int32) float32 {
+func DivFloor(n, d int) float32 {
     return float32(math.Floor(float64(n) / float64(d)))
 }

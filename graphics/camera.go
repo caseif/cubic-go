@@ -7,7 +7,9 @@ import (
     "math"
 )
 
-var CAMERA = Camera{}
+var WorldCamera = Camera{}
+
+var Offset = mgl32.Vec3{0, 0.65, 0}
 
 type Camera struct {
     translation                                       mgl32.Vec3
@@ -41,7 +43,7 @@ func (self *Camera) RotateBy(pitch, yaw float32) {
 }
 
 func (self Camera) GetTranslationMatrix() *mgl32.Mat4 {
-    return util.GetTranslationMatrix(self.translation)
+    return util.GetTranslationMatrix(self.translation.Add(Offset.Mul(util.UnitLength)))
 }
 
 func (self Camera) GetXRotationMatrix() *mgl32.Mat4 {

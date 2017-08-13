@@ -88,7 +88,7 @@ func startLoop(window *glfw.Window) {
 
         UpdateCamera(world.WORLD_SERVER.Player.Position())
 
-        CAMERA.applyTransformations()
+        WorldCamera.applyTransformations()
 
         render(world.WORLD_SERVER.GetWorld("world")) //TODO: fix this once entities are implemented
 
@@ -99,5 +99,5 @@ func startLoop(window *glfw.Window) {
 }
 
 func UpdateCamera(position mgl32.Vec3) {
-    CAMERA.Translate(position)
+    WorldCamera.Translate(position)
 }

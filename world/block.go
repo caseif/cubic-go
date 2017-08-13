@@ -14,22 +14,22 @@ func CreateBlock(owningChunk *Chunk, position *mgl32.Vec3, blockType BlockType) 
     return &Block{owningChunk, *position, blockType}
 }
 
-func (self Block) GetOwningChunk() *Chunk {
+func (self Block) OwningChunk() *Chunk {
     return self.owningChunk
 }
 
-func (self Block) GetPosition() *mgl32.Vec3 {
+func (self Block) Position() *mgl32.Vec3 {
     return &self.position
 }
 
-func (self Block) GetType() BlockType {
+func (self Block) Type() BlockType {
     return self.blockType
 }
 
-func (self Block) GetRelative(face BlockFace) *Block {
-    x := int32(self.position.X())
-    y := int32(self.position.Y())
-    z := int32(self.position.Z())
+func (self Block) Relative(face BlockFace) *Block {
+    x := int(self.position.X())
+    y := int(self.position.Y())
+    z := int(self.position.Z())
 
     switch face {
     case Top:

@@ -22,13 +22,13 @@ var chunkVaoHandles = make(map[*world.Chunk]uint32)
 func render(world *world.World) {
     gl.UseProgram(CameraShader)
     gl.UniformMatrix4fv(gl.GetUniformLocation(CameraShader, gl.Str("trMatrix\x00")), 1, false,
-        &CAMERA.GetTranslationMatrix()[0])
+        &WorldCamera.GetTranslationMatrix()[0])
     gl.UniformMatrix4fv(gl.GetUniformLocation(CameraShader, gl.Str("rXMatrix\x00")), 1, false,
-        &CAMERA.GetXRotationMatrix()[0])
+        &WorldCamera.GetXRotationMatrix()[0])
     gl.UniformMatrix4fv(gl.GetUniformLocation(CameraShader, gl.Str("rYMatrix\x00")), 1, false,
-        &CAMERA.GetYRotationMatrix()[0])
+        &WorldCamera.GetYRotationMatrix()[0])
     gl.UniformMatrix4fv(gl.GetUniformLocation(CameraShader, gl.Str("rZMatrix\x00")), 1, false,
-        &CAMERA.GetZRotationMatrix()[0])
+        &WorldCamera.GetZRotationMatrix()[0])
 
     for _, chunk := range world.ChunkMap {
         if chunk.Dirty {
@@ -64,7 +64,7 @@ func createVbo(chunk *world.Chunk) *[]float32 {
                 if b == nil {
                     continue
                 }
-                blockType := b.GetType()
+                blockType := b.Type()
 
                 rX := float32(x) * util.UnitLength
                 rY := float32(y) * util.UnitLength
@@ -82,27 +82,27 @@ func createVbo(chunk *world.Chunk) *[]float32 {
                 c111 := &mgl32.Vec3{rX + util.UnitLength, rY + util.UnitLength, rZ + util.UnitLength}
 
                 // back face
-                if b.GetRelative(world.Back) == nil {
+                if b.Relative(world.Back) == nil {
                     faces = append(faces, *createQuad(blockType, world.Back, c100, c000, c010, c110))
                 }
                 // front face
-                if b.GetRelative(world.Front) == nil {
+                if b.Relative(world.Front) == nil {
                     faces = append(faces, *createQuad(blockType, world.Front, c001, c101, c111, c011))
                 }
                 // left face
-                if b.GetRelative(world.Left) == nil {
+                if b.Relative(world.Left) == nil {
                     faces = append(faces, *createQuad(blockType, world.Left, c000, c001, c011, c010))
                 }
                 // right face
-                if b.GetRelative(world.Right) == nil {
+                if b.Relative(world.Right) == nil {
                     faces = append(faces, *createQuad(blockType, world.Right, c101, c100, c110, c111))
                 }
                 // bottom face
-                if b.GetRelative(world.Bottom) == nil {
+                if b.Relative(world.Bottom) == nil {
                     faces = append(faces, *createQuad(blockType, world.Bottom, c000, c100, c101, c001))
                 }
                 // top face
-                if b.GetRelative(world.Top) == nil {
+                if b.Relative(world.Top) == nil {
                     faces = append(faces, *createQuad(blockType, world.Top, c010, c011, c111, c110))
                 }
 

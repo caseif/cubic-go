@@ -2,7 +2,6 @@ package world
 
 import (
     "github.com/go-gl/mathgl/mgl32"
-    "strconv"
     "github.com/caseif/cubic-go/util"
 )
 
@@ -31,9 +30,9 @@ func (self World) AddChunk(chunk *Chunk) {
     self.ChunkMap[*chunk.GetPosition()] = chunk
 }
 
-func (self World) GetBlock(x, y, z int32) *Block {
+func (self World) GetBlock(x, y, z int) *Block {
     if y < 0 || y >= CHUNK_HEIGHT {
-        panic("Invalid y-coordinate " + strconv.Itoa(int(y)) + " for block")
+        return nil
     }
 
     chunkX := float32(util.DivFloor(x, CHUNK_LENGTH))

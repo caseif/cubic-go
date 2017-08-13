@@ -13,20 +13,20 @@ func KeyCallback(window *glfw.Window, key glfw.Key, scancode int, action glfw.Ac
     vy := float32(0)
     vz := float32(0)
     if window.GetKey(glfw.KeyA) == glfw.Press {
-        vx -= speed * util.Cos(CAMERA.Rotation.Y())
-        vz -= speed * util.Sin(CAMERA.Rotation.Y())
+        vx -= speed * util.Cos(WorldCamera.Rotation.Y())
+        vz -= speed * util.Sin(WorldCamera.Rotation.Y())
     }
     if window.GetKey(glfw.KeyD) == glfw.Press {
-        vx += speed * util.Cos(CAMERA.Rotation.Y())
-        vz += speed * util.Sin(CAMERA.Rotation.Y())
+        vx += speed * util.Cos(WorldCamera.Rotation.Y())
+        vz += speed * util.Sin(WorldCamera.Rotation.Y())
     }
     if window.GetKey(glfw.KeyW) == glfw.Press {
-        vx -= speed * -util.Sin(CAMERA.Rotation.Y())
-        vz -= speed * util.Cos(CAMERA.Rotation.Y())
+        vx -= speed * -util.Sin(WorldCamera.Rotation.Y())
+        vz -= speed * util.Cos(WorldCamera.Rotation.Y())
     }
     if window.GetKey(glfw.KeyS) == glfw.Press {
-        vx += speed * -util.Sin(CAMERA.Rotation.Y())
-        vz += speed * util.Cos(CAMERA.Rotation.Y())
+        vx += speed * -util.Sin(WorldCamera.Rotation.Y())
+        vz += speed * util.Cos(WorldCamera.Rotation.Y())
     }
     if window.GetKey(glfw.KeyLeftShift) == glfw.Press {
         vy -= speed
