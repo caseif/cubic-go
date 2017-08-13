@@ -4,7 +4,6 @@ import (
     "github.com/go-gl/mathgl/mgl32"
     "strconv"
     "github.com/caseif/cubic-go/util"
-    "fmt"
 )
 
 const CHUNK_LENGTH = 16
@@ -13,10 +12,11 @@ const CHUNK_HEIGHT = 128
 type World struct {
     name string
     ChunkMap map[mgl32.Vec2]*Chunk
+    Entities []*Entity
 }
 
 func CreateWorld(name string) *World {
-    return &World{name, make(map[mgl32.Vec2]*Chunk)}
+    return &World{name, make(map[mgl32.Vec2]*Chunk), make([]*Entity, 0)}
 }
 
 func (self World) GetName() string {
@@ -52,9 +52,15 @@ func (self World) GetBlock(x, y, z int32) *Block {
         normZ += CHUNK_LENGTH
     }
 
-    if x == -1 {
-        fmt.Printf("%f %d\n", -1 / CHUNK_LENGTH, normX)
-    }
-
     return chunk.Blocks[normX][y][normZ]
+}
+
+func (self *World) AddEntity(entity *Entity) {
+    self.Entities = append(self.Entities, entity)
+}
+
+func (self *World) Tick() {
+    for _, ent := range self.Entities {
+        ent.Tick()
+    }
 }

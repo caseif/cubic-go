@@ -7,19 +7,25 @@ import (
     "math"
 )
 
-const Speed float32 = 0.02
-
 var CAMERA = Camera{}
 
 type Camera struct {
-    Translation mgl32.Vec3
-    Rotation mgl32.Vec3
-    Velocity mgl32.Vec3
+    translation                                       mgl32.Vec3
+    Rotation                                          mgl32.Vec3
     dirtyTranslation, dirtyRotX, dirtyRotY, dirtyRotZ bool
 }
 
-func (self *Camera) TranslateBy(translation mgl32.Vec3) {
-    self.Translation = self.Translation.Sub(translation)
+func (self *Camera) Translation() mgl32.Vec3 {
+    return self.translation
+}
+
+func (self *Camera) Translate(translation mgl32.Vec3) {
+    self.translation = translation
+    self.dirtyTranslation = true
+}
+
+func (self *Camera) TranslateBy(translationDelta mgl32.Vec3) {
+    self.translation = self.translation.Sub(translationDelta)
     self.dirtyTranslation = true
 }
 
@@ -35,7 +41,7 @@ func (self *Camera) RotateBy(pitch, yaw float32) {
 }
 
 func (self Camera) GetTranslationMatrix() *mgl32.Mat4 {
-    return util.GetTranslationMatrix(self.Translation)
+    return util.GetTranslationMatrix(self.translation)
 }
 
 func (self Camera) GetXRotationMatrix() *mgl32.Mat4 {
@@ -50,8 +56,7 @@ func (self Camera) GetZRotationMatrix() *mgl32.Mat4 {
     return util.GetZRotationMatrix(self.Rotation.Z())
 }
 
-func (self *Camera) UpdatePosition() {
-    self.TranslateBy(self.Velocity)
+func (self *Camera) applyTransformations() {
     if self.dirtyTranslation {
         gl.UniformMatrix4fv(TrMatLoc, 1, false, &self.GetTranslationMatrix()[0])
         self.dirtyTranslation = false

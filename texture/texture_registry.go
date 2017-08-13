@@ -7,7 +7,6 @@ import (
     "image/draw"
     "image/png"
     "bytes"
-    "fmt"
 )
 
 const texSize = 128
@@ -17,7 +16,6 @@ var regTexes int32 = 0
 
 func RegisterBlockTextures() {
     for blockType := range world.BlockTypes {
-        fmt.Println(world.BlockType(blockType))
         registerBlock(world.BlockType(blockType))
     }
     createTextureArray()

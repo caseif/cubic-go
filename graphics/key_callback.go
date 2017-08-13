@@ -4,7 +4,10 @@ import (
     "github.com/go-gl/glfw/v3.1/glfw"
     "github.com/go-gl/mathgl/mgl32"
     "github.com/caseif/cubic-go/util"
+    "github.com/caseif/cubic-go/world"
 )
+
+const Speed float32 = 0.02
 
 func KeyCallback(window *glfw.Window, key glfw.Key, scancode int, action glfw.Action, mods glfw.ModifierKey) {
     speed := Speed
@@ -34,5 +37,5 @@ func KeyCallback(window *glfw.Window, key glfw.Key, scancode int, action glfw.Ac
         vy += speed
     }
 
-    CAMERA.Velocity = mgl32.Vec3{vx, vy, vz}
+    world.WORLD_SERVER.Player.Velocity = mgl32.Vec3{vx, vy, vz}
 }

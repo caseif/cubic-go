@@ -1,9 +1,28 @@
 package world
 
+import (
+    "time"
+)
+
 var WORLD_SERVER WorldServer = WorldServer{}
+
+var lastTick time.Time
+
+var TickLength = 10 * time.Millisecond // 100 tps
 
 type WorldServer struct {
     worlds map[string]*World
+    Player *Entity
+}
+
+func (self *WorldServer) Init() {
+    go self.startLoop()
+}
+
+func (self *WorldServer) startLoop() {
+    for {
+        self.Tick()
+    }
 }
 
 func (self *WorldServer) GetWorlds() *map[string]*World {
@@ -23,4 +42,16 @@ func (self *WorldServer) AddWorld(world *World) {
 
 func (self *WorldServer) RemoveWorld(world *World) {
     delete(self.worlds, world.GetName())
+}
+
+func (self *WorldServer) Tick() {
+    if (time.Now().Sub(lastTick) < TickLength) {
+        return
+    }
+
+    lastTick = time.Now()
+
+    for _, world := range self.worlds {
+        world.Tick()
+    }
 }

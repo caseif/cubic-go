@@ -7,6 +7,7 @@ import (
     "github.com/caseif/cubic-go/util"
     "github.com/caseif/cubic-go/texture"
     "runtime"
+    "github.com/go-gl/mathgl/mgl32"
 )
 
 const width = 1280
@@ -85,7 +86,9 @@ func startLoop(window *glfw.Window) {
     for !window.ShouldClose() {
         gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
-        CAMERA.UpdatePosition()
+        UpdateCamera(world.WORLD_SERVER.Player.Position())
+
+        CAMERA.applyTransformations()
 
         render(world.WORLD_SERVER.GetWorld("world")) //TODO: fix this once entities are implemented
 
@@ -93,4 +96,8 @@ func startLoop(window *glfw.Window) {
         glfw.PollEvents()
         PollMouse(window)
     }
+}
+
+func UpdateCamera(position mgl32.Vec3) {
+    CAMERA.Translate(position)
 }
