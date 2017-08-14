@@ -5,6 +5,8 @@ import (
     "github.com/caseif/cubic-go/world"
     "github.com/go-gl/mathgl/mgl32"
     "github.com/google/uuid"
+    "math/rand"
+    "time"
 )
 
 // prereqs
@@ -26,9 +28,11 @@ func main() {
 }
 
 func createDummyWorld() {
-    localWorld := world.CreateWorld("world")
+    rand.Seed(int64(time.Now().Nanosecond()))
+
+    localWorld := world.CreateWorld("world", rand.Uint64())
     world.ServerInst.AddWorld(localWorld)
-    chunk := world.CreateChunk(localWorld, &mgl32.Vec2{})
+    /*chunk := world.CreateChunk(localWorld, &mgl32.Vec2{})
     localWorld.AddChunk(chunk)
 
     start := 0
@@ -48,8 +52,13 @@ func createDummyWorld() {
                 chunk.AddBlock(world.CreateBlock(chunk, &mgl32.Vec3{float32(x), float32(y), float32(z)}, blockType))
             }
         }
+    }*/
+    for x := -3.0; x <= 3; x++ {
+        for z := -3.0; z <= 3; z++ {
+            localWorld.GenerateChunk(mgl32.Vec2{float32(x), float32(z)})
+        }
     }
 
     id, _ := uuid.NewRandom()
-    world.ServerInst.Player = world.CreateEntity(id, world.Player, localWorld, mgl32.Vec3{1.5, 2, 1.5})
+    world.ServerInst.Player = world.CreateEntity(id, world.Player, localWorld, mgl32.Vec3{1.5, 16, 1.5})
 }

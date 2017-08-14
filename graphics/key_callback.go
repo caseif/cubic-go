@@ -34,7 +34,6 @@ func KeyCallback(window *glfw.Window, key glfw.Key, scancode int, action glfw.Ac
     }
     if window.GetKey(glfw.KeySpace) == glfw.Press {
         if world.ServerInst.Player.OnGround() {
-            fmt.Println("applying jump")
             vy = util.JumpStrength
         }
     }

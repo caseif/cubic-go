@@ -66,9 +66,9 @@ func createVbo(chunk *world.Chunk) *[]float32 {
                 }
                 blockType := b.Type()
 
-                rX := float32(x) * util.UnitLength
+                rX := (chunk.GetPosition().X() * world.CHUNK_LENGTH + float32(x)) * util.UnitLength
                 rY := float32(y) * util.UnitLength
-                rZ := float32(z) * util.UnitLength
+                rZ := (chunk.GetPosition().Y() * world.CHUNK_LENGTH + float32(z)) * util.UnitLength
 
                 faces := make([][floatsPerFace]float32, 0, 6)
 
