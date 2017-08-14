@@ -39,7 +39,7 @@ func initGLFW() *glfw.Window {
         panic(err)
     }
 
-    window.SetKeyCallback(KeyCallback)
+    //window.SetKeyCallback(KeyCallback)
     window.SetInputMode(glfw.CursorMode, glfw.CursorDisabled)
 
     vidmode := glfw.GetPrimaryMonitor().GetVideoMode()
@@ -60,8 +60,8 @@ func initGL() {
 
     gl.Enable(gl.DEPTH_TEST)
     gl.DepthFunc(gl.LEQUAL)
-    //gl.Enable(gl.CULL_FACE)
-    //gl.CullFace(gl.BACK)
+    gl.Enable(gl.CULL_FACE)
+    gl.CullFace(gl.BACK)
     gl.PolygonMode(gl.FRONT_AND_BACK, gl.FILL)
 
     gl.Viewport(0, 0, width, height)
@@ -89,6 +89,8 @@ func startLoop(window *glfw.Window) {
         UpdateCamera(world.ServerInst.Player.Position())
 
         WorldCamera.applyTransformations()
+
+        monitorKeys(window)
 
         render(world.ServerInst.GetWorld("world")) //TODO: fix this once entities are implemented
 
