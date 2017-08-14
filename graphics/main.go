@@ -92,7 +92,7 @@ func startLoop(window *glfw.Window) {
 
         monitorKeys(window)
 
-        render(world.ServerInst.GetWorld("world")) //TODO: fix this once entities are implemented
+        render(world.ServerInst.Player.World())
 
         window.SwapBuffers()
         glfw.PollEvents()
