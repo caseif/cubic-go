@@ -20,3 +20,10 @@ func Clamp(val, min, max float32) float32 {
 func DivFloor(n, d int) int {
     return int(math.Floor(float64(n) / float64(d)))
 }
+
+func MaxAbs(a, b float32) float32 {
+    if math.Abs(float64(a)) > math.Abs(float64(b)) {
+        return a
+    }
+    return b
+}

@@ -14,6 +14,7 @@ type Entity struct {
     world *World
     position mgl32.Vec3
     Velocity mgl32.Vec3
+    acceleration mgl32.Vec3
     ground bool
 }
 
@@ -37,12 +38,28 @@ func (self *Entity) OnGround() bool {
     return self.ground
 }
 
-func (self *Entity) UpdatePosition() {
+func (self *Entity) AddForce(accel mgl32.Vec3) {
+    self.acceleration = self.acceleration.Add(accel)
+}
+
+func (self *Entity) applyGravity() {
+    self.AddForce(mgl32.Vec3{0, -util.Gravity / util.TicksPerSecond, 0})
+}
+
+func (self *Entity) applyDrag() {
+    self.AddForce(*util.VecMul(&self.Velocity, -util.DragRatio, -util.DragRatioVertical, -util.DragRatio))
+}
+
+func (self *Entity) updatePosition() {
     prev := self.position
 
     freezeX := false
     freezeY := false
     freezeZ := false
+
+    self.applyDrag()
+
+    self.Velocity = self.Velocity.Add(self.acceleration)
 
     self.position = *util.VecAdd(&self.position, self.Velocity.X(), 0, 0)
 
@@ -92,7 +109,8 @@ func (self *Entity) UpdatePosition() {
         vz = 0
     }
 
-    self.Velocity = mgl32.Vec3{vx, vy - util.Gravity / util.TicksPerSecond, vz}
+    self.Velocity = mgl32.Vec3{vx, vy, vz}
+    self.acceleration = mgl32.Vec3{}
 }
 
 func (self *Entity) possibleCollisions() []*Block {
@@ -117,7 +135,8 @@ func (self *Entity) possibleCollisions() []*Block {
 }
 
 func (self *Entity) Tick() {
-    self.UpdatePosition()
+    self.applyGravity()
+    self.updatePosition()
 }
 
 func (self *Entity) collides(block *Block) bool {
@@ -136,7 +155,7 @@ func (self *Entity) collides(block *Block) bool {
 }
 
 func CreateEntity(id uuid.UUID, eType EntityType, world *World, position mgl32.Vec3) *Entity {
-    ent := &Entity{id, eType, world, position, mgl32.Vec3{}, false}
+    ent := &Entity{id, eType, world, position, mgl32.Vec3{}, mgl32.Vec3{}, false}
     world.AddEntity(ent)
     return ent
 }
